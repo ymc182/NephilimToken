@@ -77,13 +77,13 @@ impl Contract {
     fn on_tokens_burned(&mut self, account_id: AccountId, amount: Balance) {
         log!("Account @{} burned {}", account_id, amount);
     }
-    pub fn ft_mint(&mut self) {
+    pub fn ft_mint(&mut self, amount: U128) {
         require!(
             self.owner_id == env::predecessor_account_id(),
             "Only owner can mint"
         );
         self.token
-            .internal_deposit(&env::signer_account_id(), 100000);
+            .internal_deposit(&env::signer_account_id(), amount.0);
     }
 }
 near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
